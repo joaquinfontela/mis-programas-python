@@ -7,6 +7,7 @@ def organizeCurrentDirectoryFilesByItsLastModificationYear():
 	'''
 	for file in os.listdir():
 
+		# if its the file itself or a directory.
 		if (file == os.path.basename(__file__)) or os.path.isdir(file):
 			continue
 
