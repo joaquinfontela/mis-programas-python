@@ -7,7 +7,7 @@ def organizeCurrentDirectoryFilesByItsLastModificationYear():
 	'''
 	for file in os.listdir():
 
-		if (file == 'main.py') or os.path.isdir(file):
+		if (file == os.path.basename(__file__)) or os.path.isdir(file):
 			continue
 
 		fileProps = os.stat(file)
@@ -25,4 +25,6 @@ if __name__ == '__main__':
 	answer = input("Press 'y' and enter if you are SURE of reorganizing ALL the files in the current directory.\n")
 	if answer == 'y':
 		organizeCurrentDirectoryFilesByItsLastModificationYear()
+
+
 	
