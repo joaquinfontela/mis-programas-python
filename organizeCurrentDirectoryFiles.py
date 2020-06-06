@@ -8,18 +8,18 @@ def organizeCurrentDirectoryFilesByItsLastModificationYear():
 	for file in os.listdir():
 
 		# if its the file itself or a directory.
-		if (file == os.path.basename(__file__)) or os.path.isdir(file):
+		if ( file == os.path.basename(__file__) ) or ( os.path.isdir(file) ):
 			continue
 
 		fileProps = os.stat(file)
-		yearOfLastModification = time.gmtime(fileProps.st_mtime).tm_year
+		yearOfLastModification = time.gmtime( fileProps.st_mtime ).tm_year
 
 		try: 
-			os.mkdir(f'./{str(yearOfLastModification)}')
+			os.mkdir( f'./{str( yearOfLastModification )}' )
 		except FileExistsError:
 			pass
 
-		shutil.move(file, f'./{str(yearOfLastModification)}')
+		shutil.move( file, f'./{str( yearOfLastModification )}' )
 
 
 if __name__ == '__main__':
