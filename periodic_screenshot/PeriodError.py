@@ -1,0 +1,3 @@
+class PeriodError(Exception):
+
+    pass
