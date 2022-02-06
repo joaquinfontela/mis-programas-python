@@ -30,7 +30,7 @@ def main(amount_to_buy):
     print(
         f'\nOfficial USD price is ARS {OFFICIAL_SELL}.')
     print(
-        f'Adding taxes ({round((TAXES_OVER_OFFICIAL - 1) * 100)}%), this price goes up to ARS {OFFICIAL_SELL * TAXES_OVER_OFFICIAL}.\n')
+        f'Adding taxes ({round((TAXES_OVER_OFFICIAL - 1) * 100)}%), this price goes up to ARS {round(OFFICIAL_SELL * TAXES_OVER_OFFICIAL, 2)}.\n')
     print(
         f'Blue USD buying price is ARS {BLUE_BUY} and selling price {BLUE_SELL}.\n')
     print(f'You want to buy USD {AMOUNT_TO_BUY}.\n\n')
