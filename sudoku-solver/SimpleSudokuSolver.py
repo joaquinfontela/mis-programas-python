@@ -28,11 +28,12 @@ class SimpleSudokuSolver:
                 box.addCell(cell)
                 self.cells.append(cell)
 
-    def solve(self):
+    def solve(self) -> None:
         self.printSudoku()
         print("")
+        self.setPossibleValuesToCells()
         while not self.solved():
-            sleep(1)
+            sleep(0.5)
             currentCellNumber = self.currentStartCellNumber
             while not self.unsolvable(currentCellNumber):
                 cell = self.cells[currentCellNumber]
@@ -44,6 +45,10 @@ class SimpleSudokuSolver:
                     print("")
                     break
                 currentCellNumber = self.getNewCellNumber(currentCellNumber)
+
+    def setPossibleValuesToCells(self):
+        for cell in self.cells:
+            cell.updatePossibleValuesForIntersectionOfRowColAndBox()
 
     def completeCell(self, cell) -> bool:
         intersecPossibleValues = cell.intersecPossibleValuesForRowColAndBox()
@@ -99,3 +104,12 @@ class SimpleSudokuSolver:
     def unsolvable(self, currentCellNumber):
         return (self.currentStartCellNumber - 1 == currentCellNumber) or (
             self.currentStartCellNumber == 0 and currentCellNumber == 80)
+
+    def getSudokuMatrix(self):
+        matrix = []
+        for row in self.rows:
+            r = []
+            for cell in row.cells:
+                r.append(cell.val)
+            matrix.append(r)
+        return matrix
