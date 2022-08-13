@@ -1,5 +1,6 @@
 import random
 from get_results import get_results
+from persistence import save_preds_to_csv
 
 
 def evaluatePrediction(pred, results):
@@ -24,7 +25,7 @@ def evaluateNotExactResult(pred, res):
     return 0
 
 
-def main(insert_manually=False):
+def main(save=True, insert_manually=False):
     K = 1000000
     POSS_PREDS = ['1-0', '2-0', '2-1', '3-0', '3-1', '3-2', '4-0', '4-1', '4-2', '4-3',
                   '0-0', '1-1', '2-2', '3-3', '4-4',
@@ -40,7 +41,7 @@ def main(insert_manually=False):
                 input(f'Insert odds paid for {pred} and press ENTER: '))
             weights.append(1/odd)
     else:
-        odds = get_results(
+        odds, teams = get_results(
             url, POSS_PREDS)
         weights = [1/odd for odd in odds]
 
@@ -49,8 +50,12 @@ def main(insert_manually=False):
 
     pointsSum = {pred: evaluatePrediction(pred, res) for pred in POSS_PREDS}
 
-    print({k: v/K for k, v in sorted(pointsSum.items(),
-          key=lambda item: -item[1])})
+    points_pred = {k: v/K for k, v in sorted(pointsSum.items(),
+                                             key=lambda item: -item[1])}
+    print(points_pred)
+
+    if save:
+        save_preds_to_csv('past_preds.csv', points_pred, teams[0], teams[1])
 
 
 if __name__ == '__main__':

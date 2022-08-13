@@ -3,18 +3,24 @@ from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 
 
-def get_results(url, results=[]):
+def get_results(url, results=[], max_attempts=20):
 
     w = webdriver.Chrome()
     w.get(url)
     w.maximize_window()
 
-    sleep(2)
-
-    change_res_buttons = w.find_elements_by_class_name(
-        "mcs-SelectorButton_Icon")
-    actions = ActionChains(w)
-    actions.move_to_element(change_res_buttons[1]).perform()
+    for _ in range(max_attempts):
+        sleep(15)
+        teams = w.find_element_by_class_name('sph-EventHeader_Label').text
+        try:
+            change_res_buttons = w.find_elements_by_class_name(
+                "mcs-SelectorButton_Icon")
+            actions = ActionChains(w)
+            actions.move_to_element(change_res_buttons[1]).perform()
+        except IndexError as e:
+            print(e)
+            continue
+        break
 
     try:
         acc_cookies_but = w.find_element_by_class_name(
@@ -42,7 +48,7 @@ def get_results(url, results=[]):
 
         reset_result(home_goals, away_goals, change_res_buttons)
 
-    return odds
+    return odds, teams.split(' v ')
 
 
 def reset_result(last_home_goals, last_away_goals, change_res_buttons):
